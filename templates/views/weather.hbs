@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+     <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet"> 
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" integrity="sha512-PgQMlq+nqFLV4ylk1gwUOgm6CtIIXkKwaIHp/PAIWHzig/lKZSEGKEysh0TCVbHJXCLN7WetD8TFecIky75ZfQ==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.10/css/weather-icons.min.css" integrity="sha512-Fdq8QvrEd3TD4heN8gNTOl79sAZR7zsiHIDQbE5eEBxx8pPfb/yJHaBWxhoG7SNcQiBmrrUHlg5TiNX4ovt6Jg==" crossorigin="anonymous" />
+
+<style>
+        .box{
+            background-color: #044e69;
+            width: 350px;
+            padding-top: 1%;
+            height: 370px;
+            font-family: 'Potta One', cursive;
+           
+            
+        }
+        h1{
+            font-family: 'Potta One', cursive;
+            color: white;
+            font-size: 40px;
+            text-shadow: 3px 6px rgb(20, 19, 19);
+        }
+        h3{
+            color: white
+        }
+        #date{
+            font-family: 'Potta One', cursive;
+            font-size: 15px;
+            font-weight: bolder;
+        }
+        
+        #temp{
+            color: white;
+            font-size:90px;
+            font-family: 'Concert One', cursive;
+        }
+        #weath{
+            color: rgb(8, 150, 206);
+            font-size: 20px;
+        }
+        #city{
+            color: whitesmoke;
+            font-family: 'Potta One', cursive;
+            padding: 20px;
+            font-size: 30px;
+            font-family: 'Concert One', cursive;
+        }
+        
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  border-radius: 20px;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 9px;
+  background: black;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+#date{
+    color: white;
+}
+
+    </style>
+</head>
+<body>
+    <center>
+      {{>nav}}
+<center>
+        <br><br>
+       <div id="ask">
+           
+            <form class="example"style="margin:auto;max-width:350px">
+            <input type="text" placeholder="Enter City name" id="cityName" autocomplete="off">
+            <button type="submit" value="search" id="search"><i class="fa fa-search"></i></button>
+            </form>
+            <br><br><br>
+        <div class="box">
+         <p style="background-color: rgb(3, 23, 43);padding:10px;">
+             <span id="date"> </span><br>
+                 <span id="city">Enter City</span>
+
+         </p>
+                 
+                 <span id="weath"><i class="fas fa-smog fa-4x" style="color:white"></i></span><br>
+                 <div id="temp">0℃</div> 
+            </div>
+         </div>
+    
+    </center>
+    
+</body>
+</html>
+<script>
+    const dateTime=document.getElementById("date");
+    const getCurrentDate =()=>
+    {
+        let mon=["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+
+        var now = new Date();
+        var month =mon[now.getMonth()];
+        var day =now.getDate();
+        console.log(month+"/"+day);
+
+        let hour=now.getHours();
+        let minuit=now.getMinutes();
+        let period="AM";
+        if(hour > 11)
+        {
+            period="PM";
+            if(hour>12) hour -=12;
+        }
+        if(minuit<10)
+        {
+            minuit="0"+minuit;
+        }
+        dateTime.innerText= `${day} ${month} | ${hour}:${minuit}${period}`;
+      
+    };    
+     getCurrentDate();
+     console.log(getCurrentDate().timee);
+
+    
+</script>
+<script>
+    const cityName=document.getElementById("cityName");
+    const search=document.getElementById("search");
+    const city=document.getElementById("city");
+    const temp=document.getElementById("temp");
+    const weathIcon=document.getElementById("weath");
+const getInfo = async(event)=>
+   
+{
+    event.preventDefault();
+     let cityVal= cityName.value;
+    if(cityVal==="")
+    {
+        
+        city.innerText="Enter city";
+    }
+    else
+    {   
+
+        try{
+             let url=`http://api.openweathermap.org/data/2.5/weather?q=${cityVal}&units=metric&appid=f86f0133e3d13e34246516b95921b270`;
+        const response = await fetch(url);
+        const data = await response.json();
+        const arrData=[data];
+        temp.innerText=`${arrData[0].main.temp}℃`;
+        const tempStatus=arrData[0].weather[0].main;
+        city.innerText=`${arrData[0].name}, ${arrData[0].sys.country}`;
+       // console.log(data);
+       
+       if(tempStatus=="Sunny")
+    {
+        weathIcon.innerHTML="<i class='fas fa-sun fa-4x' style='color:red'></i>";
+    }
+    else if(tempStatus =="Clear")
+    {
+        weathIcon.innerHTML="<i class='fas fa-smog fa-4x' style='color:white'></i>";
+    }
+    else if(tempStatus =="Clouds")
+    {
+         weathIcon.innerHTML="<i class='fas fa-cloud fa-4x' style='color:white'></i>";
+    }
+    else if(tempStatus =="Rainy")
+    {
+        
+         weathIcon.innerHTML="<i class='fas fa-cloud-showers-heavy fa-4x' style='color:white'></i>";
+        
+    }
+    else
+    {
+        
+       weathIcon.innerHTML="<i class='fas fa-cloud-sun fa-6x' style='color:white'></i>";
+        // console.log("work");
+    }
+
+        }
+        catch{
+            city.innerHTML="<span style='color:tomato;'>Enter valid city name</span>";
+        }
+     
+    }
+}
+search.addEventListener('click',getInfo);
+</script>
