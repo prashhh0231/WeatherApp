@@ -168,6 +168,7 @@ const getInfo = async(event)=>
     }
     else
     {   
+        console.log(cityVal);
 
         try{
              let url=`http://api.openweathermap.org/data/2.5/weather?q=${cityVal}&units=metric&appid=f86f0133e3d13e34246516b95921b270`;
